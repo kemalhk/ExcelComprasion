@@ -52,8 +52,8 @@ public class CustomerServiceImpl implements CustomerService {
                         incorrectInstallment.add(uploadedCustomer); //hatalıysa listeye ekle
                     }
                     //tutar kontrol
-                    if (uploadedCustomer.getInvoiceAmount() != existingCustomer.getInvoiceAmount()) {
-                        incorrectInvoiceAmount.add(uploadedCustomer); //hatalıysa listeye ekle
+                    if (!uploadedCustomer.getInvoiceAmount().equals(existingCustomer.getInvoiceAmount())) {
+                        incorrectInvoiceAmount.add(uploadedCustomer);
                     }
                 }
             }
