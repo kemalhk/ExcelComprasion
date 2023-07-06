@@ -33,16 +33,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customers;
     }
 
-
-
     @Override
     public List<CustomerDto> compareCustomers(InputStream inputStream) throws Exception {
         List<Customer> existingCustomers = customerRepository.findAll(); // db den kayıtları al
         List<CustomerDto> customers = ExcelUtils.readCustomerFromExcel(inputStream); // exceldeki kayıtları al
         List<CustomerDto> incorrectInstallment = new ArrayList<>(); // hatalı taksit
         List<CustomerDto> incorrectInvoiceAmount = new ArrayList<>(); // hatalı tutar
-
-
             for (Customer existingCustomer : existingCustomers) {
                 for (CustomerDto uploadedCustomer : customers) {
                 //eğer InvoiceId eşleşirse karşılaştırma işlemi yap
@@ -65,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     //kullanıcıya bildirim gönderme
-    private void sendNotificationToUsers(List<CustomerDto> incorrectInstallment) {
+    public void sendNotificationToUsers(List<CustomerDto> incorrectInstallment) {
         // Hatalı taksite sahip kayıtların bilgilerini consola yazdır
         for (CustomerDto customer : incorrectInstallment) {
             System.out.println("Eşleşmeyen kayıt (Installment): " + customer.toString());
@@ -74,7 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     //admine bildirim gönderme
-    private void sendNotificationToAdmin(List<CustomerDto> incorrectInvoiceAmount) {
+    public void sendNotificationToAdmin(List<CustomerDto> incorrectInvoiceAmount) {
         // Hatalı tutara sahip kayıtların bilgilerini consola yazdır
         for (CustomerDto customer : incorrectInvoiceAmount) {
             System.out.println("Eşleşmeyen kayıt (InvoiceAmount): " + customer.toString());

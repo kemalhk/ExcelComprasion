@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Person")
+@Table(name = "Customer")
 public class Customer {
     @Id
     @Column(length = 50,name = "invoiceId")
