@@ -1,8 +1,12 @@
 package com.ExcelComprasion.ExcelComprasion.controller;
 
 import com.ExcelComprasion.ExcelComprasion.dto.CustomerDto;
+import com.ExcelComprasion.ExcelComprasion.entity.Customer;
 import com.ExcelComprasion.ExcelComprasion.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,4 +41,14 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("/p")
+    public Page<CustomerDto> getCustomers(Pageable pageable) {
+        return customerService.getCustomers(pageable);
+    }
+    //http://localhost:8080/customers/p?page=1&size=100
+    @GetMapping("/s")
+    public Slice<Customer> getCustomersSlice(Pageable pageable){
+        return customerService.getCustomersSlice(pageable);
+    }
+    //http://localhost:8080/customers/s?page=0&size=10&sort=name,asc
 }

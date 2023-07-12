@@ -5,7 +5,11 @@ import com.ExcelComprasion.ExcelComprasion.repository.CustomerRepository;
 import com.ExcelComprasion.ExcelComprasion.service.CustomerService;
 import com.ExcelComprasion.ExcelComprasion.util.ExcelUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+
 
 import java.io.InputStream;
 import java.util.List;
@@ -78,5 +82,29 @@ public class CustomerServiceImpl implements CustomerService {
         System.out.println("Sistem yöneticisine mail gönderildi: Hatalı InvoiceAmount kayıtları");
         System.out.println("--------------------------------------------------------------------------");
     }
+
+
+    @Override
+    public Page<CustomerDto> getCustomers(Pageable pageable) {
+        Page<Customer> customers = customerRepository.findAll(pageable);
+
+        return customers.map(customer -> {
+            CustomerDto customerDto = new CustomerDto();
+            customerDto.setInvoiceId(customer.getInvoiceId());
+            customerDto.setName(customer.getName());
+            customerDto.setEmail(customer.getEmail());
+            customerDto.setPhone(customer.getPhone());
+            customerDto.setInvoiceAmount(customer.getInvoiceAmount());
+            customerDto.setInstallment(customer.getInstallment());
+
+            return customerDto;
+        });
+    }
+
+    @Override
+    public Slice<Customer> getCustomersSlice(Pageable pageable) {
+        return customerRepository.findAll(pageable);
+    }
+
 
 }
